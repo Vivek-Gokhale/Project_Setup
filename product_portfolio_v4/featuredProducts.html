@@ -86,7 +86,7 @@
             carouselItem.href = `singleProductPage.html?id=${product_id}`;
 
             let img = document.createElement('img');
-            img.src = product_image[1]|| product_image[0]; // Assuming product_image contains an array of image URLs
+            img.src = product_image[1]; // Assuming product_image contains an array of image URLs
             carouselItem.appendChild(img);
             carousel.appendChild(carouselItem);
 

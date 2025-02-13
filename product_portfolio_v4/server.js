@@ -202,30 +202,9 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/signup', (req, res) => {
-<<<<<<< HEAD
-  const {
-      email,
-      password,
-      firstName,
-      lastName,
-      phoneNo,
-      address: { 
-          houseApartment, 
-          area, 
-          landmark, 
-          townCity, 
-          state, 
-          pincode, 
-          isDefault 
-      },
-  } = req.body;
-
-  // Check if the email already exists
-=======
   const { email, password, firstName, lastName, phoneNo } = req.body;
 
   // Check if the user_email already exists
->>>>>>> ec86fbf52e8728a26c96c2f6c4c10dc28c3b17d3
   const checkQuery = 'SELECT user_email FROM user_register_details WHERE user_email = ?';
   db.query(checkQuery, [email], (err, results) => {
       if (err) {
@@ -243,44 +222,6 @@ app.post('/signup', (req, res) => {
                   return res.status(500).json({ error: 'Error hashing the password' });
               }
 
-<<<<<<< HEAD
-              // Insert the user into the database
-              const insertUserQuery =
-                  'INSERT INTO user_register_details (user_email, user_password, first_name, last_name, user_phone_no) VALUES (?, ?, ?, ?, ?)';
-              db.query(insertUserQuery, [email, hashedPassword, firstName, lastName, phoneNo], (err, userResult) => {
-                  if (err) {
-                      console.error('Error inserting user into the database:', err);
-                      return res.status(500).json({ error: 'Database error' });
-                  }
-
-                  const userId = userResult.insertId; // Get the newly created user ID
-
-                  // Insert the address into the database
-                  const insertAddressQuery = `
-                      INSERT INTO user_addresses (user_id, pincode, house_apartment, area, landmark, town_city, state, is_default, name, phone_no)
-                      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                  `;
-                  db.query(insertAddressQuery, [
-                      userId,
-                      pincode,
-                      houseApartment,
-                      area,
-                      landmark,
-                      townCity,
-                      state,
-                      isDefault ? 1 : 0, // Convert isDefault to 1 or 0
-                      `${firstName} ${lastName}`, // Default name field
-                      phoneNo
-                  ], (err) => {
-                      if (err) {
-                          console.error('Error inserting address into the database:', err);
-                          return res.status(500).json({ error: 'Database error while adding address' });
-                      }
-
-                      // Successfully signed up and added address
-                      return res.json({ message: 'Sign up successful with default address' });
-                  });
-=======
               // Insert the new user into the database
               const insertQuery = 'INSERT INTO user_register_details (user_email, user_password, first_name, last_name, user_phone_no) VALUES (?, ?, ?, ?, ?)';
               db.query(insertQuery, [email, hashedPassword, firstName, lastName, phoneNo], (err, result) => {
@@ -289,16 +230,12 @@ app.post('/signup', (req, res) => {
                       return res.status(500).json({ error: 'Database error' });
                   }
                   return res.json({ message: 'Sign up successful' });
->>>>>>> ec86fbf52e8728a26c96c2f6c4c10dc28c3b17d3
               });
           });
       }
   });
 });
-<<<<<<< HEAD
-=======
 
->>>>>>> ec86fbf52e8728a26c96c2f6c4c10dc28c3b17d3
 app.post('/resetPassword', (req, res) => {
   const { email, newPassword } = req.body;
 
@@ -519,7 +456,7 @@ app.get('/featured-products', (req, res) => {
         }
 
         // Base path for the product images
-        const basePath = 'project_setup/admin-template/docs/product-uploads/';
+        const basePath = 'http://localhost/admin-template/docs/product-uploads/';
 
         // Format the results to include the full path for the images
         const products = results.map(product => {
@@ -536,7 +473,7 @@ app.get('/featured-products', (req, res) => {
     });
 });
 
-const basePath = 'project_setup/admin-template/docs/product-uploads/';
+const basePath = 'http://localhost/admin-template/docs/product-uploads/';
 
 app.post('/getUserOrders', (req, res) => {
   const { email } = req.body;
@@ -638,7 +575,7 @@ app.get('/products/:id', (req, res) => {
       const product = results[0];
 
       // Base path for the product images
-      const basePath = 'admin-template/docs/product-uploads/';
+      const basePath = 'http://localhost/admin-template/docs/product-uploads/';
       const images = JSON.parse(product.product_image);
       const fullImageUrls = images.map(image => basePath + image);
 
@@ -678,7 +615,7 @@ app.get('/productsCate', (req, res) => {
         }
 
         // Base path for the product images
-        const basePath = 'admin-template/docs/product-uploads/';
+        const basePath = 'http://localhost/admin-template/docs/product-uploads/';
 
         const products = results.map(product => {
             const images = JSON.parse(product.product_image);
@@ -765,7 +702,7 @@ app.get('/productsAll', (req, res) => {
       return res.status(404).json({ error: 'No products found' });
     }
 
-    const basePath = 'admin-template/docs/product-uploads/';
+    const basePath = 'http://localhost/admin-template/docs/product-uploads/';
     const products = results.map(product => {
       const images = JSON.parse(product.product_image);
       const fullImageUrls = images.map(image => basePath + image);
@@ -815,7 +752,7 @@ app.get('/productsAll', (req, res) => {
         return res.status(404).json({ error: 'No products found' });
       }
 
-      const basePath = 'project_setup/admin-template/docs/product-uploads/';
+      const basePath = 'http://localhost/admin-template/docs/product-uploads/';
       const products = results.map(product => {
         const images = JSON.parse(product.product_image);
         const fullImageUrls = images.map(image => basePath + image);
@@ -910,7 +847,7 @@ app.post('/productsByColor', (req, res) => {
       }
 
       // Base path for the product images
-      const basePath = 'project_setup/admin-template/docs/product-uploads/';
+      const basePath = 'http://localhost/admin-template/docs/product-uploads/';
 
       const products = results.map(product => {
           const images = JSON.parse(product.product_image);
@@ -1010,7 +947,7 @@ app.post('/get-product-details', (req, res) => {
             return res.status(500).json({ error: 'Database error' });
         }
 
-        const basePath = 'project_setup/admin-template/docs/product-uploads/';
+        const basePath = 'http://localhost/admin-template/docs/product-uploads/';
         const products = productRows.map(product => {
             const images = JSON.parse(product.product_image);
             const fullImageUrls = images.map(image => basePath + image);
@@ -1156,13 +1093,8 @@ app.post('/remove-from-cart', (req, res) => {
 });
 
 
-<<<<<<< HEAD
-// Endpoint to get the applied coupon for a user
-app.post('/get-applied-coupon', (req, res) => {
-=======
 
 app.post('/get-applied-coupons', (req, res) => {
->>>>>>> ec86fbf52e8728a26c96c2f6c4c10dc28c3b17d3
   const { userEmail } = req.body;
 
   const queryUser = 'SELECT user_id FROM user_register_details WHERE user_email = ?';
@@ -1178,66 +1110,6 @@ app.post('/get-applied-coupons', (req, res) => {
 
     const userId = userRows[0].user_id;
 
-<<<<<<< HEAD
-    // Query for the currently applied coupon
-    const queryCoupon = 'SELECT coupon_code FROM applied_coupons WHERE user_id = ? LIMIT 1';
-    db.query(queryCoupon, [userId], (err, couponRows) => {
-      if (err) {
-        console.error('Error fetching applied coupon:', err);
-        return res.status(500).json({ error: 'Database error' });
-      }
-
-      if (couponRows.length === 0) {
-        return res.json({ appliedCoupon: null }); // No coupon applied
-      }
-
-      res.json({ appliedCoupon: couponRows[0].coupon_code });
-    });
-  });
-});
-
-// Endpoint to apply a coupon for a user
-app.post('/apply-coupon', (req, res) => {
-  const { userEmail, couponCode } = req.body;
-
-  const queryUser = 'SELECT user_id FROM user_register_details WHERE user_email = ?';
-  db.query(queryUser, [userEmail], (err, userRows) => {
-    if (err) {
-      console.error('Error querying the database:', err);
-      return res.status(500).json({ error: 'Database error' });
-    }
-
-    if (userRows.length === 0) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-
-    const userId = userRows[0].user_id;
-
-    // Check if the user already has a coupon applied
-    const queryCheck = 'SELECT coupon_code FROM applied_coupons WHERE user_id = ? LIMIT 1';
-    db.query(queryCheck, [userId], (err, appliedRows) => {
-      if (err) {
-        console.error('Error checking applied coupons:', err);
-        return res.status(500).json({ error: 'Database error' });
-      }
-
-      if (appliedRows.length > 0) {
-        return res.status(400).json({
-          error: 'A coupon is already applied. Please remove it before applying a new one.',
-          appliedCoupon: appliedRows[0].coupon_code,
-        });
-      }
-
-      // Apply the new coupon
-      const queryApply = 'INSERT INTO applied_coupons (user_id, coupon_code) VALUES (?, ?)';
-      db.query(queryApply, [userId, couponCode], (err) => {
-        if (err) {
-          console.error('Error applying coupon:', err);
-          return res.status(500).json({ error: 'Database error' });
-        }
-
-        res.json({ success: true, appliedCoupon: couponCode });
-=======
     const queryCoupons = 'SELECT coupon_code FROM applied_coupons WHERE user_id = ?';
     db.query(queryCoupons, [userId], (err, appliedCoupons) => {
       if (err) {
@@ -1273,18 +1145,12 @@ app.post('/apply-coupon', (req, res) => {
         const filteredCoupons = couponCodesApplied.filter(coupon => !couponCodesOrdered.includes(coupon));
 
         res.json({ couponCodes: filteredCoupons });
->>>>>>> ec86fbf52e8728a26c96c2f6c4c10dc28c3b17d3
       });
     });
   });
 });
 
-<<<<<<< HEAD
-// Endpoint to remove the applied coupon
-app.post('/remove-coupon', (req, res) => {
-=======
 app.post('/get-applied-coupons-temp', (req, res) => {
->>>>>>> ec86fbf52e8728a26c96c2f6c4c10dc28c3b17d3
   const { userEmail } = req.body;
 
   const queryUser = 'SELECT user_id FROM user_register_details WHERE user_email = ?';
@@ -1300,17 +1166,6 @@ app.post('/get-applied-coupons-temp', (req, res) => {
 
     const userId = userRows[0].user_id;
 
-<<<<<<< HEAD
-    // Remove the applied coupon
-    const queryRemove = 'DELETE FROM applied_coupons WHERE user_id = ?';
-    db.query(queryRemove, [userId], (err) => {
-      if (err) {
-        console.error('Error removing coupon:', err);
-        return res.status(500).json({ error: 'Database error' });
-      }
-
-      res.json({ success: true, message: 'Coupon removed successfully' });
-=======
     const queryCoupons = 'SELECT coupon_code FROM applied_coupons WHERE user_id = ?';
     db.query(queryCoupons, [userId], (err, appliedCoupons) => {
       if (err) {
@@ -1320,13 +1175,10 @@ app.post('/get-applied-coupons-temp', (req, res) => {
 
       const couponCodes = appliedCoupons.map(row => row.coupon_code);
       res.json({ couponCodes });
->>>>>>> ec86fbf52e8728a26c96c2f6c4c10dc28c3b17d3
     });
   });
 });
 
-<<<<<<< HEAD
-=======
   app.get('/get-coupons', (req, res) => {
     db.query('SELECT coupon_code, coupon_percentage FROM coupons', (error, results) => {
       if (error) {
@@ -1355,7 +1207,6 @@ app.post('/get-applied-coupons-temp', (req, res) => {
       res.json({ coupons: couponRows });
     });
   });
->>>>>>> ec86fbf52e8728a26c96c2f6c4c10dc28c3b17d3
   
 
   
@@ -1533,31 +1384,6 @@ app.post('/get-applied-coupons-temp', (req, res) => {
           const couponCodes = couponRows.map(row => row.coupon_code);
   
           // Step 4: Insert record into orders table
-<<<<<<< HEAD
-          // Format the amount to two decimal places
-const formattedAmount = parseFloat(amount).toFixed(2);
-
-// Update the order values to use the formatted amount
-const orderValues = [
-  userId,
-  JSON.stringify(productIds),
-  JSON.stringify(productQtys),
-  formattedAmount, // Ensure the amount is in correct decimal format
-  JSON.stringify(couponCodes),
-  'online',
-  'Pending'
-];
-
-// Insert the order into the database
-db.query(insertOrder, orderValues, (err, result) => {
-  if (err) {
-    console.error('Error inserting the order:', err);
-    return res.status(500).json({ error: 'Database error' });
-  }
-
-  res.status(200).json({ message: 'Order inserted successfully', orderId: result.insertId });
-});
-=======
           const insertOrder = 'INSERT INTO orders (user_id, product_ids, product_qtys, order_date, total_amount, coupon_code, payment_option, delivery_status) VALUES (?, ?, ?, NOW(), ?, ?, ?, ?)';
           const orderValues = [userId, JSON.stringify(productIds), JSON.stringify(productQtys), amount, JSON.stringify(couponCodes), 'online', 'Pending'];
   
@@ -1566,7 +1392,6 @@ db.query(insertOrder, orderValues, (err, result) => {
               console.error('Error inserting the order:', err);
               return res.status(500).json({ error: 'Database error' });
             }
->>>>>>> ec86fbf52e8728a26c96c2f6c4c10dc28c3b17d3
   
             // Step 5: Delete cart records for the user
             const deleteCart = 'DELETE FROM cart WHERE user_id = ?';
@@ -1582,81 +1407,6 @@ db.query(insertOrder, orderValues, (err, result) => {
         });
       });
     });
-<<<<<<< HEAD
-
-  
-  
-  
-    app.post('/get-address', (req, res) => {
-      const { userEmail } = req.body;
-  
-      if (!userEmail) {
-          return res.status(400).json({ error: 'User email is required' });
-      }
-  
-      const userQuery = `
-          SELECT 
-              u.user_id,
-              u.first_name,
-              u.last_name,
-              u.user_phone_no
-          FROM 
-              user_register_details u
-          WHERE 
-              u.user_email = ?
-      `;
-  
-      db.query(userQuery, [userEmail], (err, userRows) => {
-          if (err) {
-              console.error('Error querying the database for user:', err);
-              return res.status(500).json({ error: 'Database error' });
-          }
-  
-          if (userRows.length === 0) {
-              return res.status(404).json({ error: 'User not found' });
-          }
-  
-          const user = userRows[0];
-  
-          const addressQuery = `
-              SELECT
-                  a.aid, 
-                  a.pincode,
-                  a.house_apartment,
-                  a.area,
-                  a.landmark,
-                  a.town_city,
-                  a.state,
-                  a.is_default,
-                  a.name,
-                  a.phone_no
-              FROM 
-                  user_addresses a
-              WHERE 
-                  a.user_id = ?
-              ORDER BY 
-                  a.is_default DESC, a.aid ASC
-          `;
-  
-          db.query(addressQuery, [user.user_id], (err, addressRows) => {
-              if (err) {
-                  console.error('Error querying the database for addresses:', err);
-                  return res.status(500).json({ error: 'Database error' });
-              }
-  
-              res.json({
-                  user: {
-                      user_id: user.user_id,
-                      first_name: user.first_name,
-                      last_name: user.last_name,
-                      user_phone_no: user.user_phone_no
-                  },
-                  addresses: addressRows
-              });
-          });
-      });
-  });
-=======
   });
   
   
@@ -1732,7 +1482,6 @@ db.query(insertOrder, orderValues, (err, result) => {
 });
 
   
->>>>>>> ec86fbf52e8728a26c96c2f6c4c10dc28c3b17d3
 
   app.post('/insert-coupon', (req, res) => {
     const { couponCode, userEmail } = req.body;
@@ -2096,7 +1845,7 @@ app.post('/checkProductReview', async (req, res) => {
 
 app.get('/getProductReview/:productId', (req, res) => {
   const { productId } = req.params;
-  const basePath = 'project_setup/admin-template/docs/review_images/';
+  const basePath = 'http://localhost/admin-template/docs/review_images/';
 
   const query = `
       SELECT pr.*, ur.first_name, ur.last_name 
